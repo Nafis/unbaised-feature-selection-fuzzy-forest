@@ -18,73 +18,6 @@ library(clusterCrit)
 library(aricode)
 library(stringr)
 
-sim_100<-function(m,alpha,alpha12,alpha23,alpha34,gamma12,gamma23,gamma34){
-  #m: the number of corelated features in two different modules  
-  Sigma1 <- matrix(0,100,100)
-  #correlation between the features inside module 1 is 0.8 
-  A1=1:25#sample(1:25,sample(15:25,1))
-
-  #correlation between the features inside module 2 is 0.8
-  A2=26:50#sample(26:50,sample(15:25,1))
-
-  #correlation between the features inside module 3 is 0.8
-  A3=51:75#sample(51:75,sample(15:25,1))
- 
-  #the features in module 4 are independent from each other
-  A4=76:100#sample(76:100,sample(15:25,1))
-
-
-
-  if(m!=0){
-  ind1=1:(2*m)
-  ind2=1:m
-  #correlation within groups
-  Sigma1[A1,A2]<-alpha12
-  Sigma1[A2,A1]<-alpha12
-  Sigma1[A2,A3]<-alpha23
-  Sigma1[A3,A2]<-alpha23
-  Sigma1[A3,A4]<-alpha34
-  Sigma1[A4,A3]<-alpha34
-  #correlation with groups
-  Sigma1[A1,A2[ind1]]<-gamma12/4
-  Sigma1[A2[ind1],A1]<-gamma12/4
-  Sigma1[A2,A3[ind1]]<-gamma23/4
-  Sigma1[A3[ind1],A2]<-gamma23/4
-  Sigma1[A3,A4[ind1]]<-gamma34/4
-  Sigma1[A4[ind1],A3]<-gamma34/4
-  
-  Sigma1[A1,A2[ind2]]<-gamma12
-  Sigma1[A2[ind2],A1]<-gamma12
-  Sigma1[A2,A3[ind2]]<-gamma23
-  Sigma1[A3[ind2],A2]<-gamma23
-  Sigma1[A3,A4[ind2]]<-gamma34
-  Sigma1[A4[ind2],A3]<-gamma34
-  
-  
-  
-  
-  Sigma1[A1,A1]<-alpha
-  Sigma1[A2,A2]<-alpha
-  Sigma1[A3,A3]<-alpha
-  Sigma1[A4,A4]<-alpha
-  
-  }
-
-  diag(Sigma1)<- 1
-  
-  Mu1=rep(0,100)
-  X1=mvrnorm(n = 250, Mu1, Sigma1%*%t(Sigma1),empirical = FALSE)
-  #"X1=scale(X1)
-  y1=X1%*%lambda1+epsilon
-  
-  data_sim1=as.data.frame(cbind(X1,y1))
-  colnames(data_sim1)=c(paste0("X",1:100),"y")
-  
-  return(data_sim1)
-}
-
-##################################################################################
-
 
 
 #####################################################################################
@@ -93,16 +26,8 @@ sim_100<-function(m,alpha,alpha12,alpha23,alpha34,gamma12,gamma23,gamma34){
 
 ##################################################################################
 
-#m=5
- #alpha=0.8
- #alpha12=0
- #alpha23=0
- #alpha34=0
- #gamma12=0.7
- #gamma23=0.7
- #gamma34=0.7
 
-sim_100_<-function(m,alpha,alpha12,alpha23,alpha34,gamma12,gamma23,gamma34){
+sim_100_<-function(m,alpha,alpha4,alpha12,alpha23,alpha34,gamma12,gamma23,gamma34){
   #m: the number of corelated features in two different modules  
   Sigma1 <- matrix(0,100,100)
   #correlation between the features inside module 1 is 0.8 
@@ -153,7 +78,7 @@ sim_100_<-function(m,alpha,alpha12,alpha23,alpha34,gamma12,gamma23,gamma34){
     Sigma1[A1,A1]<-alpha
     Sigma1[A2,A2]<-alpha
     Sigma1[A3,A3]<-alpha
-    Sigma1[A4,A4]<-0
+    Sigma1[A4,A4]<-alpha4
     
     
     
@@ -295,7 +220,7 @@ fuzzy_clustvar<-function(data, X){
 varimp=c()
 
 set.seed(123)
-sim_fun=sim_100_(5,0.8,0,0,0,0.7,0.7,0.7)
+sim_fun=sim_100_(5,0.8,0,0,0,0,0.7,0.7,0.7)
 corrplot(cor(sim_fun),method="square")
 
 for(i in 1:100){
@@ -381,7 +306,7 @@ axis(1,at=1:nrow(wff_varmean),labels=wff_varmean[,1], pch=5)
 # check the linear relation of X and y in function sim_100_
 #######################################################################
 set.seed(100)
-sim_fun=sim_100_(5,0.8,0,0,0,0.7,0.7,0.7)
+sim_fun=sim_100_(5,0.8,0,0,0,0,0.7,0.7,0.7)
 par(mfrow=c(3,3))
 plot(sim_fun[,1],sim_fun[,ncol(sim_fun)],xlab="X1",ylab="y")
 plot(sim_fun[,2],sim_fun[,ncol(sim_fun)],xlab="X2",ylab="y")
