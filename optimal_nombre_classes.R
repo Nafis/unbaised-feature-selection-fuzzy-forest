@@ -1,25 +1,32 @@
 #find the best number of k for different methods
-fun=sim_100_(5,0.8,0,0,0,0,0.7,0.7,0.7)
+set.seed(123)
+fun=sim_100_(5,0.8,0,0,0,0,0,0,0)
 data=fun[,-ncol(fun)]
 CorData=cor(data)
 cdist<-dist(1-CorData**2)
 Methods=c("ward.D", "ward.D2", "complete", "average", "mcquitty", "centroid","single","median")
 
-par(mfrow=c(2,4))
 
 for (i in 1:length(Methods)) {
   hclust_fit <- hclust(cdist, method=Methods[i])
   plot(hclust_fit)
+  nb_class_sil=fviz_nbclust(as.matrix(cdist), FUN=hcut,hc_method=Methods[i] ,method = "silhouette", k.max=25)
+  plot(nb_class_sil,title=method[i])
+  nb_class_wss=fviz_nbclust(as.matrix(cdist), FUN=hcut,hc_method=Methods[i] ,method = "wss", k.max=25)
+  plot(nb_class_wss)
+  nb_class_gap=fviz_nbclust(as.matrix(cdist), FUN=hcut,hc_method=Methods[i] ,method = "gap_stat", k.max=25)
+  plot(nb_class_gap)
+}
+  
   #cah_groups=cutree(hclust_fit, k=k)
   #groups=cbind(groups,cah_groups )
-}
-
-
-
 
 
 #loop simulation for 
-
+for (i in 1:length(Methods)) {
+  hclust_fit <- hclust(cdist, method=Methods[i])
+  plot(hclust_fit)
+=  
 
 
 
