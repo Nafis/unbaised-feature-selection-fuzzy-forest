@@ -18,7 +18,7 @@ for(r in kk){
   
   set.seed(r)
   print(r)
-  fun=sim_100_(5,0.8,0,0,0.,0.7,0.7,0.7)
+  fun=sim_100_(5,0.8,0,0,0,0.,0.7,0.7,0.7)
   
   data=fun[,-ncol(fun)]
  

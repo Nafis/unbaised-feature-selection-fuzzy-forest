@@ -17,7 +17,7 @@ library(ggplot2)
 library(clusterCrit)
 library(aricode)
 library(stringr)
-
+library(cluster)
 
 
 #####################################################################################
@@ -89,8 +89,10 @@ sim_100_<-function(m,alpha,alpha4,alpha12,alpha23,alpha34,gamma12,gamma23,gamma3
   
   Mu1=rep(0,100)
   lambda1=rep(0,100)
-  lambda1[c(1,2,99,100)]=5
-  lambda1[c(3,98)]=2
+  lambda1[c(1,2)]=5
+  lambda1[3]=2
+  lambda1[c(99,100)]=10
+  lambda1[98]=5
 
   epsilon<-rnorm(250,0,0.5)
   X1=mvrnorm(n = 250, Mu1, Sigma1%*%t(Sigma1),empirical = FALSE)

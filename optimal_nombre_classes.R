@@ -1,5 +1,33 @@
 #find the best number of k for different methods
+fun=sim_100_(5,0.8,0,0,0,0,0.7,0.7,0.7)
+data=fun[,-ncol(fun)]
+CorData=cor(data)
+cdist<-dist(1-CorData**2)
+Methods=c("ward.D", "ward.D2", "complete", "average", "mcquitty", "centroid","single","median")
+
+par(mfrow=c(2,4))
+
+for (i in 1:length(Methods)) {
+  hclust_fit <- hclust(cdist, method=Methods[i])
+  plot(hclust_fit)
+  #cah_groups=cutree(hclust_fit, k=k)
+  #groups=cbind(groups,cah_groups )
+}
+
+
+
+
+
 #loop simulation for 
+
+
+
+
+
+
+
+
+
 
 
 

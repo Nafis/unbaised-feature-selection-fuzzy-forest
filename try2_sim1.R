@@ -9,7 +9,7 @@ library(NbClust)
 #set.seed(1)
 #fun=fun_1=sim_100(5,0.7,0,0,0,0.6,0.6,0.6) #==> single 
 set.seed(123)
-fun=sim_100(5,0.8,0,0,0,0,0,0)
+fun=sim_100_(5,0.8,0,0,0,0,0,0,0)
 #set.seed(123)
 #fun=fun_1=sim_100(5,0.8,0,0,0,0.6,0.6,0.6) #==> single
 
